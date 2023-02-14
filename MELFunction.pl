@@ -11,7 +11,7 @@ while (@ARGV){
 if (not defined ($stp)){print "\nThis script use several other scripts to extract information of gene function. The required arguments and inputs depend of the subscript you want to use.  To check the different subscript run the main script without arguments, if you want to check the arguments for one subscript just run the script with the specific subscript but without extra arguments (example MELFUnction.pl -stp BUSCO2GKO).\n\nUsage:\nMELFUntionannot\n\t-stp <You need determine what subscript you want to run>\n\t\tBUSCO2GKO\: <Extract gene ID from a busco code list and obtain the GO and KO terms>\n\n"; exit;}
 
 use File::Basename;
-use lib dirname (__FILE__) . "/MELFUnctionannot";
+use lib dirname (__FILE__) . "/MELFUnction";
 use Cwd 'abs_path';
 my $SCP1= abs_path($0);
 $SCP1 =~ s/\.pl$/\//;
