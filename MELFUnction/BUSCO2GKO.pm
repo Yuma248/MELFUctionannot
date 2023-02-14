@@ -13,7 +13,7 @@ foreach $ar (@arg){
 if (not defined ($input)){print "\nThis script will extract the names of genes from busco codes and obtain the GO and KO terms for enrichment analyses. It requires a file with the list of codes one por row.\n\nUsage:\nBUSCO2GKO.pl\n\t-i <path to input list>\n\t-o <path to the output file, default GKO>\n Optional:\n\t-snc <number of runs in parallel, default 10>\n\t-tax <Taxon ID, sometimes the busco taxon ID is not recognized in other databases and you will have to change it, deafult the ID in the busco database you used>\n\t\n\nFor example:\nBUSCO2GKO -i /home/Yumafan/demultiplex/pamlgenes -o /home/Yumafan/nce -snc 10 -tax 9721\n\n"; exit;}
 if (not defined ($output)){$output="./GKO";}
 if (not defined ($snc)){$snc=10;}
-my @busco = `cat $input | awk '{print $1}'`; 
+my @busco = `cat $input | awk '{print \$1}'`; 
 chomp @busco;
 open(OUTFILE, "> $output") || die "could not open output file $output";
 print OUTFILE "BUSCOID\tGENEID\tGO\tKO\n";
