@@ -1,3 +1,8 @@
+package BUSCO2GKO;
+
+my $LEVEL = 1;
+sub getGKO{
+my @arg = @_;
 
 foreach $ar (@arg){
 	if ($ar =~ /^-i/){our $input = (split(/ /,$ar))[1];}
@@ -28,3 +33,7 @@ foreach $bg (@busco){
 	
 }
 close OUTFILE;
+
+}
+
+1;
