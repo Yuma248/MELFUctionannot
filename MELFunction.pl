@@ -20,13 +20,19 @@ our @stptr = split (/,/, $stp);
 foreach $stp (@stptr){
 	if ($stp eq "BUSCO2GKO"){
         	use BUSCO2GKO;
-		if (not defined ($input && $reference)){print "\nThis script will index a reference genome using samtools, picard and bowtie2. The genome should have extension fna.\n\nUsage:\nSNPcallPipe.pl -stp indref\n\t-i <input folder where the reference is, and where all the indexes and dictionaries will be saved>\n\t-rg <the name of the reference genome incluiding the extention>\n\t-pf <path to the picar jar executable>\n\nExample:\nSNPcallpipe.pl -stp indref -i yuma/genomes/ -rg Taust.Chr.fna -pf /local/SNOcallPipe/\n"; exit;}
-		if (not defined ($pf)){$pf = $SCP1;}
-        	our @arg = ("-i $input","-rg $reference","-pf $pf");
+		if (not defined ($input)){print "\nThis script will extract the names of genes from busco codes and obtain the GO and KO terms for enrichment analyses. It requires a file with the list of codes one por row.\n\nUsage:\nBUSCO2GKO.pl\n\t-i <path to input list>\n\t-o <path to the output file, default GKO>\n Optional:\n\t-snc <number of runs in parallel, default 10>\n\t-tax <Taxon ID, sometimes the busco taxon ID is not recognized in other databases and you will have to change it, deafult the ID in the busco database you used>\n\t\n\nFor example:\nBUSCO2GKO -i /home/Yumafan/demultiplex/pamlgenes -o /home/Yumafan/nce -snc 10 -tax 9721\n\n"; exit;}
+		if (not defined ($output)){$output="./GKO";}
+		if (not defined ($snc)){$snc=10;}
+		if (not defined ($tax)){
+		our @arg = ("-i $input","-o $output","-snc $snc");
+		}
+		elsif (defined ($tax)){
+		our @arg = ("-i $input","-o $output","-snc $snc","-tax $tax");
+		}
 	        BUSCO2GKO::getGKO(@arg);
         	$stprn = 0;
 	}
-	elsif ($stp eq "demul"){
+#	elsif ($stp eq "demul"){
 #		use dDocent;
 #		if (not defined ($input && $barcode_file)){print "\nThis script uses stacks's process_rad to demultiplex fasta files.\n\nUsage:\nSNPcallPipe.pl -stp demul\n\t-i <directory with raw sequencing files>\n\t-o <output folder, if it does no exist it will be created>\n\t-bf <barcode file, tab delimited (LaneName SampleName Barcode Single Popnumber)>\nOptional:\n\t-lnc <number of lanes in parallel, or number of R1 files in you folder. default 1>\n\t-snc <number of samples perl lane in parallel, optimum 58/number of R1 files in you folder. default 10>\n\t-rad <RAD_tag, default TGCAGG TAA>\n\nFor example:\nSNPcallPipe.pl -stp demul -i /yuma/rawread/ -o /yuma/demultiplex -bf /yuma/barcodefile -lnc 1 -snc 10 \n\n"; exit;}
 #		if (not defined $output){$output = "./demultiplex";}
