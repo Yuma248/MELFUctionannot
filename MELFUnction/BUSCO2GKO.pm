@@ -18,7 +18,7 @@ chomp @busco;
 open(OUTFILE, "> $output") || die "could not open output file $output";
 print OUTFILE "BUSCOID\tGENEID\tGO\tKO\n";
 foreach $bg (@busco){
-	if (nor defined ($tax)){$tax= (split'at', $bg)[-1];}
+	if (not defined ($tax)){$tax= (split'at', $bg)[-1];}
 	my $gID= `wget -q -O - \"https\:\/\/v10.orthodb.org\/tab\?id\=$bg\&species\=\" | head  -n 2 | tail -n 1 | awk -F '\t' '{print \$7}'`;
 	$gID=~ s/ \n//g;
 	chomp $gID;
