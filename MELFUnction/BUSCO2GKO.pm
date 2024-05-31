@@ -19,8 +19,12 @@ open(OUTFILE, "> $output") || die "could not open output file $output";
 print OUTFILE "BUSCOID\tGENEID\tGO\tKO\n";
 foreach $bg (@busco){
 	if (not defined ($tax)){$tax= (split'at', $bg)[-1];}
-	my $gID= `wget -q -O - \"https\:\/\/v10.orthodb.org\/tab\?id\=$bg\&species\=\" | head  -n 2 | tail -n 1 | awk -F '\t' '{print \$7}'`;
-	$gID=~ s/ \n//g;
+##For the version 10
+#	my $gID= `wget -q -O - \"https\:\/\/v10.orthodb.org\/tab\?id\=$bg\&species\=\" | head  -n 2 | tail -n 1 | awk -F '\t' '{print \$7}'`;
+##some times the tab of version 10 is not workign, but you can use the fasta info
+#	my $gID= `curl -s  \"https://v10-1.orthodb.org/fasta\?id\=$bg\" | head -n 1 | grep -o '\"pub_gene_id\"\:\"[\^\"]\*' | sed 's/\"pub_gene_id\"\:\"//'`;
+ 	my $gID= `wget -q -O - \"https://data.orthodb.org/current/tab?id\=$bg\" | head  -n 2 | tail -n 1 | awk -F '\t' '{print \$6}'
+ 	$gID=~ s/ \n//g;
 	chomp $gID;
 	my $GO= `wget -qO- \"https://rest.uniprot.org/uniprotkb/search?query=gene\:$gID\+AND+taxonomy_id:$tax\&fields=go_id&format=tsv\" | grep -m 1 \"GO\:\"`;
 	$GO=~ s/ //g;
