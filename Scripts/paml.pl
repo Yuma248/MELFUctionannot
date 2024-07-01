@@ -1,5 +1,5 @@
 
-#!/home/gent0058/.conda/envs/fastidiosa/bin/perl -w
+#!/usr/bin/perl -w
 while (@ARGV){
 $_=shift @ARGV;
 if ($_=~ /^-if$/){$if=shift @ARGV;}
